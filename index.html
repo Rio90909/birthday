@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Eshal Turns One 🎂 — A First Birthday Surprise</title>
+<meta name="description" content="A magical first-birthday page for Eshal Amir — photos, a wish, a letter, and a year of love. 17 November 2026.">
+<meta property="og:title" content="Eshal Turns One 🎂">
+<meta property="og:description" content="A surprise first-birthday page for Eshal Amir — tap to open it.">
+<meta property="og:image" content="og-image.jpg">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#24102e">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Great+Vibes&family=Nunito:ital,wght@0,400;0,600;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --plum:#24102e; --plum2:#3b1a4a; --deep:#180a20;
+  --rose:#f6a5b8; --pink:#e75480; --pinksoft:#fbd3dd;
+  --gold:#e9c979; --gold2:#caa14f; --cream:#fff7ee; --ink:#43284e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Nunito',system-ui,sans-serif; color:var(--cream);
+  background:
+    radial-gradient(900px 500px at 85% -5%, rgba(231,84,128,.20), transparent 60%),
+    radial-gradient(800px 600px at -10% 30%, rgba(233,201,121,.12), transparent 55%),
+    radial-gradient(700px 500px at 110% 75%, rgba(246,165,184,.12), transparent 55%),
+    linear-gradient(180deg, var(--plum) 0%, var(--plum2) 45%, var(--plum) 100%);
+  background-attachment:fixed;
+  overflow-x:hidden; -webkit-tap-highlight-color:transparent;
+}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+::selection{background:var(--pink);color:#fff}
+
+/* ---------- fireflies ---------- */
+#fireflies{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.fly{position:absolute;width:5px;height:5px;border-radius:50%;
+  background:radial-gradient(circle,#ffe9a8 0%,rgba(255,233,168,0) 70%);
+  animation:drift var(--d,9s) ease-in-out infinite alternate;opacity:0}
+@keyframes drift{
+  0%{transform:translate(0,0);opacity:0}
+  15%{opacity:.9}
+  50%{transform:translate(var(--x,30px),var(--y,-40px));opacity:.5}
+  85%{opacity:.9}
+  100%{transform:translate(calc(var(--x,30px)*-.6),calc(var(--y,-40px)*1.6));opacity:0}
+}
+
+/* ---------- intro / gift ---------- */
+#intro{position:fixed;inset:0;z-index:60;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:24px;transition:opacity .8s ease,visibility .8s;
+  background:
+    radial-gradient(700px 420px at 50% 0%, rgba(233,201,121,.16), transparent 60%),
+    linear-gradient(180deg,var(--deep),var(--plum) 60%,var(--plum2));}
+#intro.opened{opacity:0;visibility:hidden;pointer-events:none}
+.intro-kicker{letter-spacing:.35em;font-size:.72rem;font-weight:800;color:var(--gold);text-transform:uppercase}
+.intro-gift{font-size:5.2rem;margin:22px 0 6px;animation:bob 2.6s ease-in-out infinite;filter:drop-shadow(0 14px 24px rgba(0,0,0,.45))}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+.intro-for{font-family:'Great Vibes',cursive;font-size:clamp(2.6rem,11vw,4rem);color:var(--rose);line-height:1.1}
+.intro-sub{color:#e9d9f2;opacity:.85;max-width:320px;margin:10px auto 30px;font-size:1rem;line-height:1.55}
+#openBtn{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#3a2703;font-weight:800;
+  font-size:1.12rem;padding:16px 42px;border-radius:999px;letter-spacing:.02em;
+  box-shadow:0 12px 34px rgba(233,201,121,.35), inset 0 1px 0 #fff8;
+  animation:pulse 2s ease-in-out infinite;transition:transform .15s}
+#openBtn:active{transform:scale(.96)}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+.intro-note{margin-top:18px;font-size:.8rem;color:#cdb8dd;opacity:.8}
+
+/* ---------- layout ---------- */
+main{position:relative;z-index:2;max-width:1060px;margin:0 auto;padding:0 18px}
+section{padding:64px 0 8px}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+.rv.in{opacity:1;transform:none}
+.sec-kicker{text-align:center;letter-spacing:.32em;font-size:.7rem;font-weight:800;color:var(--gold);text-transform:uppercase}
+.sec-title{font-family:'Playfair Display',serif;font-weight:800;text-align:center;
+  font-size:clamp(1.9rem,7vw,2.7rem);margin:10px 0 8px;color:var(--cream)}
+.sec-sub{text-align:center;color:#e6d3f2;opacity:.85;max-width:520px;margin:0 auto 30px;line-height:1.6;font-size:.98rem}
+
+/* ---------- hero ---------- */
+.hero{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:70px 0 40px;position:relative}
+.hero-script{font-family:'Great Vibes',cursive;font-size:clamp(2.4rem,10vw,3.8rem);color:var(--rose);line-height:1.05;
+  text-shadow:0 4px 30px rgba(231,84,128,.35)}
+.hero-name{font-family:'Playfair Display',serif;font-weight:800;letter-spacing:.04em;
+  font-size:clamp(4.2rem,19vw,8.2rem);line-height:1;margin:2px 0 4px;
+  background:linear-gradient(100deg,#b98a2e 0%,var(--gold) 25%,#fff3c4 50%,var(--gold) 75%,#b98a2e 100%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 5.5s linear infinite}
+@keyframes shimmer{to{background-position:220% 0}}
+.hero-formal{font-size:clamp(.95rem,3.6vw,1.08rem);color:#efe0f7;max-width:520px;line-height:1.6}
+.hero-formal b{color:var(--gold)}
+.date-chip{margin-top:16px;display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:999px;
+  border:1px solid rgba(233,201,121,.55);color:var(--gold);font-weight:800;letter-spacing:.14em;font-size:.8rem;text-transform:uppercase;
+  background:rgba(233,201,121,.08)}
+.arch{margin:36px auto 8px;width:min(76vw,330px);aspect-ratio:3/4.05;border-radius:190px 190px 24px 24px;padding:9px;
+  background:linear-gradient(170deg,#f4dc9a,var(--gold2) 55%,#8a6420);
+  box-shadow:0 30px 70px rgba(0,0,0,.5), 0 0 90px rgba(233,201,121,.22);position:relative}
+.arch::after{content:"✦";position:absolute;top:-17px;left:50%;transform:translateX(-50%);color:var(--gold);font-size:1.5rem;
+  text-shadow:0 0 14px rgba(233,201,121,.9)}
+.arch img{width:100%;height:100%;object-fit:cover;border-radius:182px 182px 17px 17px}
+.arch-cap{margin-top:14px;font-family:'Great Vibes',cursive;font-size:1.7rem;color:var(--rose)}
+.counters{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:34px}
+.counter{min-width:128px;padding:16px 14px 12px;border-radius:18px;text-align:center;
+  background:rgba(255,247,238,.06);border:1px solid rgba(246,165,184,.28)}
+.counter .num{font-family:'Playfair Display',serif;font-weight:800;font-size:1.65rem;color:var(--gold);line-height:1}
+.counter .lbl{margin-top:6px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#e9d9f2;opacity:.85}
+.scroll-hint{margin-top:38px;color:#cdb8dd;font-size:.82rem;letter-spacing:.22em;text-transform:uppercase;animation:bob 2.6s ease-in-out infinite}
+</style>
+</head>
+<body>
+
+<div id="fireflies" aria-hidden="true"></div>
+
+<!-- ================= INTRO ================= -->
+<div id="intro" role="dialog" aria-label="A surprise for Eshal">
+  <div class="intro-kicker">Someone special is turning one</div>
+  <div class="intro-gift" aria-hidden="true">🎁</div>
+  <div class="intro-for">A surprise for Eshal</div>
+  <p class="intro-sub">Wrapped with love, tied with moonlight — one whole year of her, waiting inside.</p>
+  <button id="openBtn" type="button">Tap to Open 🎂</button>
+  <div class="intro-note">Best with your sound on 🎵</div>
+</div>
+
+<main>
+  <!-- ================= HERO ================= -->
+  <header class="hero">
+    <div class="hero-script rv">Happy 1st Birthday</div>
+    <h1 class="hero-name rv">ESHAL</h1>
+    <p class="hero-formal rv">Celebrating the first birthday of <b>Eshal Amir</b> —<br>one whole year of our little miracle.</p>
+    <div class="rv"><span class="date-chip">🎈 17 November 2026 🎈</span></div>
+    <div class="arch rv"><img src="photo-01.jpg" alt="Eshal in her peach princess dress" fetchpriority="high"></div>
+    <div class="arch-cap rv">our little princess</div>
+    <div class="counters rv" id="counters">
+      <div class="counter"><div class="num" data-count="12">0</div><div class="lbl">Months of love</div></div>
+      <div class="counter"><div class="num" data-count="365">0</div><div class="lbl">Days of joy</div></div>
+      <div class="counter"><div class="num" data-count="8760">0</div><div class="lbl">Hours of cuddles</div></div>
+      <div class="counter"><div class="num">∞</div><div class="lbl">Smiles — uncountable</div></div>
+    </div>
+    <div class="scroll-hint">Scroll for her story ↓</div>
+  </header>
+<style>
+/* ---------- ribbon ---------- */
+.ribbon-sec{padding-top:26px}
+.ribbon-viewport{overflow:hidden;margin:6px -18px 0;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.ribbon-track{display:flex;gap:14px;width:max-content;padding:8px 7px;animation:ribbonMove 55s linear infinite}
+.ribbon-track.paused{animation-play-state:paused}
+@keyframes ribbonMove{to{transform:translateX(-50%)}}
+.ribbon-track img{width:138px;height:184px;object-fit:cover;border-radius:16px;flex:none;
+  border:2px solid rgba(233,201,121,.45);box-shadow:0 10px 26px rgba(0,0,0,.35)}
+
+/* ---------- gallery ---------- */
+.gallery{columns:2;column-gap:14px}
+@media(min-width:760px){.gallery{columns:3}}
+.g-item{break-inside:avoid;margin:0 0 14px;border-radius:20px;overflow:hidden;position:relative;cursor:zoom-in;
+  border:2px solid rgba(246,165,184,.35);box-shadow:0 14px 34px rgba(0,0,0,.35);background:#2e1838}
+.g-item img{width:100%;transition:transform .6s ease}
+.g-item:active img{transform:scale(1.03)}
+.g-item figcaption{position:absolute;left:0;right:0;bottom:0;padding:26px 14px 11px;color:#fff;font-weight:700;font-size:.86rem;
+  background:linear-gradient(transparent,rgba(24,10,32,.82))}
+.g-item.wide{border-color:rgba(233,201,121,.65)}
+
+/* ---------- cake / wish ---------- */
+.cake-stage{display:flex;flex-direction:column;align-items:center;text-align:center}
+.cake{position:relative;width:240px;margin-top:16px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tier{margin:0 auto;border-radius:12px;position:relative}
+.tier::before{content:"";position:absolute;top:-1px;left:0;right:0;height:14px;border-radius:12px 12px 50% 50%;
+  background:radial-gradient(circle at 10px -4px, #fff 9px, transparent 10px) repeat-x;background-size:22px 14px;opacity:.95}
+.tier.t1{width:140px;height:46px;background:linear-gradient(180deg,#fbd3dd,#f6a5b8);z-index:3}
+.tier.t2{width:185px;height:54px;background:linear-gradient(180deg,#f6a5b8,#ef7ba0);margin-top:7px;z-index:2}
+.tier.t3{width:230px;height:62px;background:linear-gradient(180deg,#ef7ba0,#e75480);margin-top:7px;z-index:1}
+.plate{width:264px;height:20px;margin:8px auto 0;border-radius:50%;background:radial-gradient(ellipse at center,#f4dc9a,#caa14f 70%,#8a6420)}
+.candle{width:12px;height:46px;margin:0 auto;border-radius:4px;position:relative;z-index:4;
+  background:repeating-linear-gradient(45deg,#fff 0 6px,#e75480 6px 12px);box-shadow:inset 0 0 3px rgba(0,0,0,.2)}
+.flame{position:absolute;left:50%;top:-27px;width:19px;height:28px;transform:translateX(-50%);
+  background:radial-gradient(circle at 50% 78%,#fff6c9 0%,#ffd23e 34%,#ff9a3d 62%,rgba(255,122,26,0) 78%);
+  border-radius:50% 50% 50% 50%/62% 62% 38% 38%;transform-origin:50% 100%;
+  animation:flick .28s ease-in-out infinite alternate;transition:opacity .3s,scale .3s}
+@keyframes flick{from{scale:1 1;rotate:-2.4deg}to{scale:1.06 1.13;rotate:2.4deg}}
+.flame.out{opacity:0;scale:.2}
+.smoke{position:absolute;left:50%;top:-34px;width:13px;height:13px;border-radius:50%;opacity:0;pointer-events:none;
+  background:radial-gradient(circle,rgba(230,225,235,.85),rgba(230,225,235,0) 70%)}
+.smoke.go{animation:smokeUp 1.6s ease-out forwards}
+@keyframes smokeUp{0%{opacity:.85;transform:translate(-50%,0) scale(.6)}100%{opacity:0;transform:translate(-30%,-64px) scale(2.1)}}
+.wish-msg{margin-top:22px;font-family:'Great Vibes',cursive;font-size:clamp(1.8rem,7vw,2.4rem);color:var(--gold);
+  opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s;max-width:480px;line-height:1.25}
+.wish-msg.show{opacity:1;transform:none}
+#relightBtn{margin-top:14px;padding:11px 26px;border-radius:999px;border:1px solid rgba(233,201,121,.6);
+  color:var(--gold);font-weight:800;font-size:.9rem;background:rgba(233,201,121,.07);opacity:0;pointer-events:none;transition:opacity .5s}
+#relightBtn.show{opacity:1;pointer-events:auto}
+.cake-hint{color:#e6d3f2;opacity:.85;margin-top:14px;font-size:.95rem}
+
+/* ---------- letter ---------- */
+.env-wrap{display:flex;flex-direction:column;align-items:center}
+.envelope{width:min(86vw,430px);height:250px;border-radius:14px;position:relative;cursor:pointer;
+  background:linear-gradient(160deg,#fbd3dd,#f6a5b8);box-shadow:0 24px 50px rgba(0,0,0,.4);overflow:hidden;transition:transform .2s}
+.envelope:active{transform:scale(.985)}
+.env-flap{position:absolute;inset:0;background:linear-gradient(180deg,#ef7ba0,#e75480);
+  clip-path:polygon(0 0,100% 0,50% 56%);transform-origin:top;transition:transform .7s ease;z-index:2}
+.envelope.open .env-flap{transform:rotateX(180deg)}
+.env-seal{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:3;width:64px;height:64px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#f4dc9a,var(--gold2) 65%,#8a6420);display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-weight:800;font-size:1.7rem;color:#4a3205;box-shadow:0 8px 20px rgba(0,0,0,.35);
+  transition:opacity .4s,scale .4s}
+.envelope.open .env-seal{opacity:0;scale:.4}
+.env-hint{position:absolute;left:0;right:0;bottom:16px;text-align:center;color:#7c2d4a;font-weight:800;letter-spacing:.14em;
+  font-size:.72rem;text-transform:uppercase;z-index:1}
+.letter-card{max-width:620px;margin:30px auto 0;background:linear-gradient(180deg,#fffaf1,#ffefd9);color:var(--ink);
+  border-radius:20px;padding:36px 30px 30px;box-shadow:0 30px 60px rgba(0,0,0,.45);border:1px solid #f0d9ae;
+  opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease;display:none}
+.letter-card.show{display:block;opacity:1;transform:none}
+.letter-card .dear{font-family:'Great Vibes',cursive;font-size:2.2rem;color:#c2437a;line-height:1.1}
+.letter-card p{margin-top:14px;line-height:1.75;font-size:1rem}
+.letter-card .sign{margin-top:22px;font-family:'Great Vibes',cursive;font-size:1.8rem;color:#c2437a;text-align:right}
+
+/* ---------- farewell / footer ---------- */
+.farewell{text-align:center}
+.farewell img{width:min(88vw,430px);margin:6px auto 0;border-radius:22px;border:2px solid rgba(233,201,121,.55);
+  box-shadow:0 24px 55px rgba(0,0,0,.45)}
+footer{position:relative;z-index:2;text-align:center;padding:64px 20px 46px;color:#cdb8dd}
+footer .heart{font-size:1.3rem}
+.credit{margin-top:10px;font-size:.86rem;line-height:1.7;color:#b79ecb}
+.credit b{color:var(--gold)}
+
+/* ---------- lightbox ---------- */
+#lightbox{position:fixed;inset:0;z-index:80;background:rgba(16,6,22,.94);display:none;flex-direction:column;
+  align-items:center;justify-content:center;padding:18px}
+#lightbox.open{display:flex}
+#lightbox img{max-width:94vw;max-height:78vh;border-radius:16px;border:2px solid rgba(233,201,121,.5);
+  box-shadow:0 30px 80px rgba(0,0,0,.6);object-fit:contain}
+#lbCap{margin-top:16px;font-family:'Great Vibes',cursive;font-size:1.6rem;color:var(--rose);text-align:center}
+.lb-btn{position:absolute;width:46px;height:46px;border-radius:50%;background:rgba(255,247,238,.1);
+  border:1px solid rgba(246,165,184,.4);color:#fff;font-size:1.25rem;display:flex;align-items:center;justify-content:center}
+#lbClose{top:16px;right:16px}
+#lbPrev{left:12px;top:50%;transform:translateY(-50%)}
+#lbNext{right:12px;top:50%;transform:translateY(-50%)}
+
+/* ---------- confetti & balloons ---------- */
+.conf{position:fixed;top:-14px;z-index:70;pointer-events:none;border-radius:2px;animation:fall var(--fd,3s) ease-in forwards}
+@keyframes fall{to{transform:translate(var(--dx,0),105vh) rotate(var(--rot,540deg));opacity:.9}}
+.balloon{position:fixed;bottom:-130px;z-index:65;pointer-events:none;font-size:2.6rem;animation:rise var(--rd,6s) ease-in forwards}
+@keyframes rise{to{transform:translateY(-125vh)}}
+
+/* ---------- music button ---------- */
+#musicBtn{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:55;width:54px;height:54px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));color:#3a2703;font-size:1.35rem;
+  box-shadow:0 10px 26px rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center}
+#musicBtn.off{filter:grayscale(.7);opacity:.75}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+}
+</style>
+
+  <!-- ================= RIBBON ================= -->
+  <section class="ribbon-sec" aria-label="A ribbon of her smiles">
+    <div class="sec-kicker rv">A ribbon of smiles</div>
+    <div class="ribbon-viewport rv">
+      <div class="ribbon-track" id="ribbonTrack">
+        <img src="photo-01.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-02.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-03.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-04.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-05.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-06.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-07.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-08.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-09.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-10.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-11.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-12.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-13.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-14.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-15.jpg" alt="Eshal" loading="lazy">
+        <img src="photo-16.jpg" alt="Eshal" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GALLERY ================= -->
+  <section aria-label="Her first year in photos">
+    <div class="sec-kicker rv">Chapter one</div>
+    <h2 class="sec-title rv">Her First Year in Photos</h2>
+    <p class="sec-sub rv">Twelve months of firsts — first smiles, first outfits, first adventures. Tap any photo to see our girl up close.</p>
+    <div class="gallery rv" id="gallery">
+      <figure class="g-item wide"><img src="photo-16.jpg" alt="Eshal in a white gown in a golden hall" loading="lazy"><figcaption>The little queen of the golden hall 👑</figcaption></figure>
+      <figure class="g-item"><img src="photo-11.jpg" alt="Eshal smiling in a pink lemon romper" loading="lazy"><figcaption>That smile — pure sunshine ☀️</figcaption></figure>
+      <figure class="g-item"><img src="photo-04.jpg" alt="Eshal crawling in a black outfit with a big bow" loading="lazy"><figcaption>On the move!</figcaption></figure>
+      <figure class="g-item"><img src="photo-10.jpg" alt="Eshal in a blue traditional outfit" loading="lazy"><figcaption>A traditional beauty 💙</figcaption></figure>
+      <figure class="g-item"><img src="photo-03.jpg" alt="Eshal at six months in red" loading="lazy"><figcaption>Six months young ❤️</figcaption></figure>
+      <figure class="g-item wide"><img src="photo-08.jpg" alt="Eshal at her birthday setup with balloons" loading="lazy"><figcaption>The birthday girl 🎂</figcaption></figure>
+      <figure class="g-item"><img src="photo-06.jpg" alt="Eshal sitting with her fluffy shoes" loading="lazy"><figcaption>Trying on her dancing shoes</figcaption></figure>
+      <figure class="g-item"><img src="photo-07.jpg" alt="Eshal on a sofa with a playful face" loading="lazy"><figcaption>Cheeky — and she knows it</figcaption></figure>
+      <figure class="g-item"><img src="photo-12.jpg" alt="Eshal with a surprised face" loading="lazy"><figcaption>Surprise! 😮</figcaption></figure>
+      <figure class="g-item"><img src="photo-15.jpg" alt="Eshal in blue traditional dress, side view" loading="lazy"><figcaption>A twirl in tradition</figcaption></figure>
+      <figure class="g-item"><img src="photo-05.jpg" alt="Eshal lying down in black outfit" loading="lazy"><figcaption>Pure sweetness</figcaption></figure>
+      <figure class="g-item"><img src="photo-09.jpg" alt="Eshal out at a restaurant at night" loading="lazy"><figcaption>Out on the town 🌙</figcaption></figure>
+      <figure class="g-item"><img src="photo-13.jpg" alt="Eshal during tummy time" loading="lazy"><figcaption>Tummy-time tales</figcaption></figure>
+      <figure class="g-item"><img src="photo-02.jpg" alt="Eshal in her peach dress looking to the side" loading="lazy"><figcaption>Those curious eyes ✨</figcaption></figure>
+      <figure class="g-item"><img src="photo-14.jpg" alt="Eshal laughing at her birthday setup" loading="lazy"><figcaption>The giggle queen 😄</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ================= MAKE A WISH ================= -->
+  <section aria-label="Make a wish">
+    <div class="sec-kicker rv">One candle, one wish</div>
+    <h2 class="sec-title rv">Make a Wish for Eshal</h2>
+    <div class="cake-stage rv">
+      <div class="cake" id="cake" role="button" tabindex="0" aria-label="Blow out the candle">
+        <div class="candle"><div class="flame" id="flame"></div><div class="smoke" id="smoke"></div></div>
+        <div class="tier t1"></div>
+        <div class="tier t2"></div>
+        <div class="tier t3"></div>
+        <div class="plate"></div>
+      </div>
+      <p class="cake-hint" id="cakeHint">Close your eyes, wish her something beautiful… then tap the candle 🕯️</p>
+      <div class="wish-msg" id="wishMsg">Your wish is sealed with love — may it follow her all her life ✨</div>
+      <button id="relightBtn" type="button">🕯️ Light it again</button>
+    </div>
+  </section>
+
+  <!-- ================= THE LETTER ================= -->
+  <section aria-label="A letter for Eshal">
+    <div class="sec-kicker rv">Sealed with love</div>
+    <h2 class="sec-title rv">A Letter for Eshal</h2>
+    <p class="sec-sub rv">For her to read today with her family — and again one day, when she is all grown up.</p>
+    <div class="env-wrap rv">
+      <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open the letter">
+        <div class="env-flap"></div>
+        <div class="env-seal">E</div>
+        <div class="env-hint">Tap to open</div>
+      </div>
+      <div class="letter-card" id="letterCard">
+        <div class="dear">My dearest Eshal,</div>
+        <p>One year ago, you arrived — and quietly rearranged every heart in this family. Since then, our days have been measured in your smiles, our nights in your soft little breaths, and our prayers in your name.</p>
+        <p>You are one today. Too little to read these words, but never too little to be loved beyond measure. So we are saving them here for you: when you are old enough to read this, know that you were celebrated, you were cherished, and you were the best gift this family ever received.</p>
+        <p>Grow kind. Grow brave. Grow happy. And wherever life takes you, we will be right beside you — at every step, in every season, for all our lives.</p>
+        <p>Happy first birthday, our darling girl. 🎂</p>
+        <div class="sign">— with all our love, always</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAREWELL ================= -->
+  <section class="farewell" aria-label="Thank you">
+    <div class="sec-kicker rv">The best is yet to come</div>
+    <h2 class="sec-title rv">Thank You for Celebrating With Us</h2>
+    <p class="sec-sub rv">Year one was only the beginning. Here's to a lifetime of her laughter.</p>
+    <img class="rv" src="photo-14.jpg" alt="Eshal laughing among her birthday balloons" loading="lazy">
+  </section>
+</main>
+
+<footer>
+  <div class="heart">🎈 🎂 🎈</div>
+  <div class="credit">Made with ❤️ by <b>Rio</b> — for Eshal, with love.<br>
+  Want a magical page like this for your family's special day? Ask Rio. 💌</div>
+</footer>
+
+<!-- ================= LIGHTBOX ================= -->
+<div id="lightbox" role="dialog" aria-label="Photo viewer">
+  <button class="lb-btn" id="lbClose" type="button" aria-label="Close">✕</button>
+  <button class="lb-btn" id="lbPrev" type="button" aria-label="Previous photo">‹</button>
+  <img id="lbImg" src="" alt="Eshal — enlarged photo">
+  <button class="lb-btn" id="lbNext" type="button" aria-label="Next photo">›</button>
+  <div id="lbCap"></div>
+</div>
+
+<button id="musicBtn" type="button" class="off" aria-label="Play or pause the birthday music">🎵</button>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(s,c){return (c||document).querySelector(s)};
+  var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
+
+  /* ---------- fireflies ---------- */
+  var ff=$('#fireflies');
+  for(var i=0;i<14;i++){
+    var s=document.createElement('span'); s.className='fly';
+    s.style.left=(Math.random()*100)+'%';
+    s.style.top=(Math.random()*100)+'%';
+    s.style.setProperty('--x',(Math.random()*90-45)+'px');
+    s.style.setProperty('--y',(Math.random()*90-45)+'px');
+    s.style.setProperty('--d',(7+Math.random()*7)+'s');
+    s.style.animationDelay=(Math.random()*8)+'s';
+    ff.appendChild(s);
+  }
+
+  /* ---------- reveal on scroll ---------- */
+  var revealIO=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); revealIO.unobserve(e.target);} });
+  },{threshold:.12});
+  $$('.rv').forEach(function(el){ revealIO.observe(el); });
+
+  /* ---------- counters ---------- */
+  function animateCount(el){
+    var target=+el.getAttribute('data-count'), t0=null, dur=1400;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min(1,(ts-t0)/dur), ease=1-Math.pow(1-p,3);
+      el.textContent=Math.round(target*ease).toLocaleString('en-US');
+      if(p<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var counted=false;
+  var cntIO=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting && !counted){
+        counted=true;
+        $$('#counters .num[data-count]').forEach(animateCount);
+        cntIO.disconnect();
+      }
+    });
+  },{threshold:.35});
+  var cEl=$('#counters'); if(cEl) cntIO.observe(cEl);
+
+  /* ---------- ribbon: clone for seamless loop + pause off-screen ---------- */
+  var track=$('#ribbonTrack');
+  track.innerHTML+=track.innerHTML;
+  var ribIO=new IntersectionObserver(function(es){
+    es.forEach(function(e){ track.classList.toggle('paused', !e.isIntersecting); });
+  },{threshold:.05});
+  ribIO.observe(track);
+  track.addEventListener('pointerdown',function(){ track.classList.add('paused'); });
+  track.addEventListener('pointerup',function(){ track.classList.remove('paused'); });
+
+  /* ---------- confetti & balloons ---------- */
+  var COLORS=['#f6a5b8','#e75480','#e9c979','#fff7ee','#caa14f','#fbd3dd'];
+  function boom(n){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    for(var i=0;i<(n||70);i++){
+      var c=document.createElement('span'); c.className='conf';
+      var sz=6+Math.random()*6;
+      c.style.width=sz+'px'; c.style.height=(sz*.55)+'px';
+      c.style.left=(Math.random()*100)+'vw';
+      c.style.background=COLORS[i%COLORS.length];
+      c.style.setProperty('--dx',(Math.random()*160-80)+'px');
+      c.style.setProperty('--rot',(360+Math.random()*540)+'deg');
+      c.style.setProperty('--fd',(2.2+Math.random()*1.6)+'s');
+      document.body.appendChild(c);
+      (function(el){ setTimeout(function(){ el.remove(); },4200); })(c);
+    }
+  }
+  function balloons(n){
+    if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var glyphs=['🎈','🎈','🎈','🩷','⭐'];
+    for(var i=0;i<(n||8);i++){
+      var b=document.createElement('span'); b.className='balloon';
+      b.textContent=glyphs[i%glyphs.length];
+      b.style.left=(4+Math.random()*90)+'vw';
+      b.style.setProperty('--rd',(5+Math.random()*2.5)+'s');
+      b.style.animationDelay=(Math.random()*0.9)+'s';
+      document.body.appendChild(b);
+      (function(el){ setTimeout(function(){ el.remove(); },9500); })(b);
+    }
+  }
+
+  /* ---------- music: music-box Happy Birthday (WebAudio) ---------- */
+  var actx=null, musicOn=false, musicTimer=null, musicBtn=$('#musicBtn');
+  var NOTES={G4:392.00,A4:440.00,B4:493.88,C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99};
+  var MELODY=[['G4',.75],['G4',.25],['A4',1],['G4',1],['C5',1],['B4',1.75],['G4',.75],['G4',.25],
+              ['A4',1],['G4',1],['D5',1],['C5',1.75],['G4',.75],['G4',.25],['G5',1],['E5',1],
+              ['C5',1],['B4',1],['A4',1.75],['F5',.75],['F5',.25],['E5',1],['C5',1],['D5',1],['C5',2.5]];
+  var BEAT=0.52;
+  function note(freq,when,dur){
+    var o1=actx.createOscillator(), o2=actx.createOscillator(), g=actx.createGain();
+    o1.type='sine'; o1.frequency.value=freq;
+    o2.type='sine'; o2.frequency.value=freq*3;
+    var g2=actx.createGain(); g2.gain.value=0.18;
+    g.gain.setValueAtTime(0.0001,when);
+    g.gain.exponentialRampToValueAtTime(0.22,when+0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001,when+Math.max(0.9,dur));
+    o1.connect(g); o2.connect(g2); g2.connect(g); g.connect(actx.destination);
+    o1.start(when); o2.start(when); o1.stop(when+Math.max(1,dur)+0.1); o2.stop(when+Math.max(1,dur)+0.1);
+  }
+  function playLoop(){
+    if(!musicOn||!actx) return;
+    var t=actx.currentTime+0.06, total=0;
+    MELODY.forEach(function(n){
+      note(NOTES[n[0]], t, n[1]*BEAT+0.35);
+      t+=n[1]*BEAT; total+=n[1]*BEAT;
+    });
+    musicTimer=setTimeout(playLoop,(total+1.6)*1000);
+  }
+  function startMusic(){
+    if(!actx){ try{ actx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; } }
+    if(actx.state==='suspended') actx.resume();
+    if(musicOn) return;
+    musicOn=true; musicBtn.classList.remove('off'); playLoop();
+  }
+  function stopMusic(){
+    musicOn=false; musicBtn.classList.add('off');
+    if(musicTimer){ clearTimeout(musicTimer); musicTimer=null; }
+    if(actx) actx.suspend();
+  }
+  musicBtn.addEventListener('click',function(){ musicOn?stopMusic():(actx&&actx.state==='suspended'?actx.resume().then(function(){musicOn=false;startMusic();}):startMusic()); });
+
+  /* ---------- intro ---------- */
+  var intro=$('#intro');
+  $('#openBtn').addEventListener('click',function(){
+    intro.classList.add('opened');
+    document.body.style.overflow='';
+    startMusic();
+    boom(80); balloons(9);
+    setTimeout(function(){ intro.style.display='none'; },900);
+  });
+  document.body.style.overflow='hidden';
+
+  /* ---------- cake / wish ---------- */
+  var flame=$('#flame'), smoke=$('#smoke'), wishMsg=$('#wishMsg'),
+      relightBtn=$('#relightBtn'), cakeHint=$('#cakeHint'), blown=false;
+  function blow(){
+    if(blown) return; blown=true;
+    flame.classList.add('out');
+    smoke.classList.remove('go'); void smoke.offsetWidth; smoke.classList.add('go');
+    wishMsg.classList.add('show'); relightBtn.classList.add('show');
+    cakeHint.textContent='You blew it out! Somewhere, a wish just took flight 🕊️';
+    boom(90); balloons(5);
+  }
+  function relight(){
+    blown=false; flame.classList.remove('out');
+    wishMsg.classList.remove('show'); relightBtn.classList.remove('show');
+    cakeHint.textContent='Close your eyes, wish her something beautiful… then tap the candle 🕯️';
+  }
+  var cake=$('#cake');
+  cake.addEventListener('click',blow);
+  cake.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); blow(); } });
+  relightBtn.addEventListener('click',relight);
+
+  /* ---------- letter ---------- */
+  var env=$('#envelope'), letter=$('#letterCard');
+  function openLetter(){
+    if(env.classList.contains('open')) return;
+    env.classList.add('open');
+    setTimeout(function(){
+      letter.style.display='block';
+      requestAnimationFrame(function(){ requestAnimationFrame(function(){ letter.classList.add('show'); }); });
+      letter.scrollIntoView({behavior:'smooth',block:'center'});
+    },450);
+  }
+  env.addEventListener('click',openLetter);
+  env.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openLetter(); } });
+
+  /* ---------- lightbox ---------- */
+  var items=$$('#gallery .g-item'), lb=$('#lightbox'), lbImg=$('#lbImg'), lbCap=$('#lbCap'), idx=0;
+  function show(i){
+    idx=(i+items.length)%items.length;
+    var img=items[idx].querySelector('img'), cap=items[idx].querySelector('figcaption');
+    lbImg.src=img.getAttribute('src');
+    lbCap.textContent=cap?cap.textContent:'';
+  }
+  function openLB(i){ show(i); lb.classList.add('open'); document.body.style.overflow='hidden'; }
+  function closeLB(){ lb.classList.remove('open'); document.body.style.overflow=''; }
+  items.forEach(function(it,i){ it.addEventListener('click',function(){ openLB(i); }); });
+  $('#lbClose').addEventListener('click',closeLB);
+  $('#lbPrev').addEventListener('click',function(e){ e.stopPropagation(); show(idx-1); });
+  $('#lbNext').addEventListener('click',function(e){ e.stopPropagation(); show(idx+1); });
+  lb.addEventListener('click',function(e){ if(e.target===lb) closeLB(); });
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('open')) return;
+    if(e.key==='Escape') closeLB();
+    if(e.key==='ArrowLeft') show(idx-1);
+    if(e.key==='ArrowRight') show(idx+1);
+  });
+})();
+</script>
+</body>
+</html>
