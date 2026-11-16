@@ -979,7 +979,7 @@ function startMemory(){
 }
 function flipMem(card){
   if(memLock || card.classList.contains('open') || card.classList.contains('done')) return;
-  audioCtx(); card.classList.add('open'); memOpen.push(card);
+  audioCtx(); playTone(740,0,0.06); card.classList.add('open'); memOpen.push(card);
   if(memOpen.length<2) return;
   var a=memOpen[0], b=memOpen[1];
   if(a.dataset.v===b.dataset.v){
@@ -1009,10 +1009,12 @@ function spawnBgBalloon(){
 setTimeout(spawnBgBalloon, 1600);
 setInterval(spawnBgBalloon, 8000);
 /* ---- sparkle where little fingers tap ---- */
-var lastSpark=0, SPARK_COLORS=['#f9cfdc','#ef7fa5','#f2b04a','#fff5f0'];
+var lastSpark=0, lastSparkSnd=0, SPARK_COLORS=['#f9cfdc','#ef7fa5','#f2b04a','#fff5f0'];
 document.addEventListener('pointerdown', function(e){
   var now=Date.now(); if(now-lastSpark<110) return; lastSpark=now;
-  if(e.target.closest && (e.target.closest('.play-area') || e.target.closest('#lb'))) return;
+  if(e.target.closest && (e.target.closest('.play-area') || e.target.closest('#lb') || e.target.closest('#musicBar'))) return;
+  if(e.target.closest && e.target.closest('#openBtn')){ playWin(); }
+  else if(now-lastSparkSnd>180){ lastSparkSnd=now; playTone(1568,0,0.05); playTone(2093,0.05,0.04); }
   for(var i=0;i<3;i++){
     var sp=document.createElement('span'); sp.className='tap-star'; sp.textContent='✦';
     sp.style.left=e.clientX+'px'; sp.style.top=e.clientY+'px';
