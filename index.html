@@ -1014,7 +1014,7 @@ document.addEventListener('pointerdown', function(e){
   var now=Date.now(); if(now-lastSpark<110) return; lastSpark=now;
   if(e.target.closest && (e.target.closest('.play-area') || e.target.closest('#lb') || e.target.closest('#musicBar'))) return;
   if(e.target.closest && e.target.closest('#openBtn')){ playWin(); }
-  else if(now-lastSparkSnd>180){ lastSparkSnd=now; playTone(1568,0,0.05); playTone(2093,0.05,0.04); }
+  else if(now-lastSparkSnd>180){ lastSparkSnd=now; playTapPop(); var ring=document.createElement('span'); ring.className='tap-ring'; ring.style.left=e.clientX+'px'; ring.style.top=e.clientY+'px'; document.body.appendChild(ring); ring.animate([{transform:'scale(.3)',opacity:.9},{transform:'scale(1.8)',opacity:0}],{duration:480,easing:'ease-out'}).onfinish=(function(el){return function(){el.remove()}})(ring); }
   for(var i=0;i<3;i++){
     var sp=document.createElement('span'); sp.className='tap-star'; sp.textContent='✦';
     sp.style.left=e.clientX+'px'; sp.style.top=e.clientY+'px';
@@ -1024,6 +1024,23 @@ document.addEventListener('pointerdown', function(e){
     sp.animate([{transform:'translate(0,0) scale(.5)',opacity:1},{transform:'translate('+(Math.cos(a)*dist)+'px,'+(Math.sin(a)*dist-8)+'px) scale(1.15)',opacity:0}],{duration:560,easing:'ease-out'}).onfinish=(function(el){return function(){el.remove()}})(sp);
   }
 });
+</script>
+
+<style>
+.tap-ring{position:fixed;width:44px;height:44px;margin:-22px 0 0 -22px;border:2px solid #f9cfdc;border-radius:50%;pointer-events:none;z-index:90;box-shadow:0 0 12px rgba(239,127,165,.35)}
+</style>
+<script>
+function playTapPop(){
+  var ctx=audioCtx(); if(!ctx) return;
+  var t=ctx.currentTime, dur=0.09;
+  var buf=ctx.createBuffer(1, Math.floor(ctx.sampleRate*dur), ctx.sampleRate), d=buf.getChannelData(0);
+  for(var i=0;i<d.length;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2); }
+  var src=ctx.createBufferSource(); src.buffer=buf;
+  var f=ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=1300; f.Q.value=0.9;
+  var g=ctx.createGain(); g.gain.setValueAtTime(0.22,t); g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+  src.connect(f); f.connect(g); g.connect(ctx.destination); src.start(t);
+  playTone(1568,0.03,0.045); playTone(2093,0.08,0.035);
+}
 </script>
 </body>
 </html>
