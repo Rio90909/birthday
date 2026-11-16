@@ -340,6 +340,13 @@ footer .f-line{font-size:11px;letter-spacing:.26em;text-transform:uppercase;marg
       <div class="play-area garden" id="flyArea"><div class="play-msg" id="flyMsg">Press start and catch the glowing fireflies!</div></div>
       <div class="game-bar"><button class="gbtn" id="flyBtn" onclick="startFlies()">▶ Start Game</button><span class="gscore" id="flyScore">Caught: 0 / 10</span></div>
     </div>
+    <div class="game-card">
+      <h3 class="game-title">🧸 Memory Match</h3>
+      <p class="game-sub">Flip the cards and find the matching pairs.</p>
+      <div class="mem-grid" id="memGrid"></div>
+      <div class="game-bar"><button class="gbtn" id="memBtn" onclick="startMemory()">▶ Start Game</button><span class="gscore" id="memScore">Pairs: 0 / 6</span></div>
+      <p class="game-sub" id="memMsg"></p>
+    </div>
   </section>
   <!-- THEN & NOW + GALLERY -->
   <section class="rv">
@@ -571,6 +578,7 @@ function launchLantern(btn,wish){
   var l=document.createElement('div'); l.className='float-lantern';
   l.style.left=(r.left+r.width/2-27)+'px';
   l.innerHTML='<div class="lantern-body"><div class="lantern-ribs"></div></div>';
+  var lb=l.querySelector('.lantern-body'); if(lb) lb.style.background=LANTERN_HUES[Math.floor(Math.random()*LANTERN_HUES.length)];
   document.body.appendChild(l); setTimeout(function(){l.remove()},8200);
   $('wishLine').textContent=wish;
 }
@@ -748,13 +756,13 @@ function openSurprise(){
 </style>
 
 <script>
-CCOLORS=['#ef7fa5','#e04a67','#f9cfdc','#c22e56','#f2b04a','#fff5f0'];
+CCOLORS=['#ef7fa5','#e04a67','#f9cfdc','#f2b04a','#7fd4a8','#8fb8ff','#fff5f0'];
 function nameParty(){
   var n=$('bigName'); n.classList.remove('bounce'); void n.offsetWidth; n.classList.add('bounce');
   confettiBurst(46);
 }
 var popRun=false, popTimer=null, popScore=0, popSpawn=null;
-var BCOLORS=['#ef5f8f','#e04a67','#f28bb0','#c22e56','#ff8fab','#f2b04a'];
+var BCOLORS=['#ef5f8f','#e04a67','#f28bb0','#c22e56','#ff8fab','#f2b04a','#7fd4a8','#8fb8ff','#c9a4e0'];
 function spawnBalloon(){
   var area=$('popArea'); if(!area) return;
   if(area.querySelectorAll('.balloon').length>=8) return;
@@ -767,7 +775,7 @@ function spawnBalloon(){
   b.addEventListener('pointerdown', function(ev){
     ev.preventDefault();
     var r=b.getBoundingClientRect(), ar=area.getBoundingClientRect();
-    popBurst(area, r.left-ar.left+r.width/2, r.top-ar.top+r.height/2, c);
+    playPop(); popBurst(area, r.left-ar.left+r.width/2, r.top-ar.top+r.height/2, c);
     b.remove(); popScore++;
     $('popScore').textContent='Popped: '+popScore;
   });
@@ -796,7 +804,7 @@ function startPop(){
     clearInterval(popSpawn); popRun=false;
     $('popMsg').textContent='Time up — you popped '+popScore+' balloons! 🎉';
     $('popBtn').textContent='↻ Play Again';
-    if(popScore>=10) confettiBurst(60);
+    if(popScore>=10){ confettiBurst(60); playWin(); }
   },30000);
 }
 var flyRun=false, flyScore=0, flyDrift=null, flies=[];
@@ -821,11 +829,11 @@ function startFlies(){
         ev.preventDefault(); if(!flyRun) return;
         el.animate([{transform:el.style.transform+' scale(1)'},{transform:el.style.transform+' scale(2.1)',opacity:0}],{duration:260,easing:'ease-out'});
         flyScore++;
-        $('flyScore').textContent='Caught: '+flyScore+' / 10';
+        playChime(); $('flyScore').textContent='Caught: '+flyScore+' / 10';
         setTimeout(function(){ flyPos(el, area); },270);
         if(flyScore>=10){
           flyRun=false; clearInterval(flyDrift);
-          $('flyMsg').textContent='You caught them all — the garden glows for Eshal! ✨';
+          playWin(); $('flyMsg').textContent='You caught them all — the garden glows for Eshal! ✨';
           $('flyBtn').textContent='↻ Play Again';
           confettiBurst(60);
         }
@@ -853,7 +861,10 @@ html{overflow-x:hidden}
 var TRACKS=[
  {src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/0/02/Happy_Birthday_to_You.ogg/Happy_Birthday_to_You.ogg.mp3', label:'Happy Birthday · Instrumental'},
  {src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/9/91/Twinkle_Twinkle_Little_Star.ogg/Twinkle_Twinkle_Little_Star.ogg.mp3', label:'Twinkle Twinkle · Piano'},
- {src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/cf/Lullaby_wound_up_clock_guten_abend_gute_nacht.ogg/Lullaby_wound_up_clock_guten_abend_gute_nacht.ogg.mp3', label:'Brahms Lullaby · Music Box'}
+ {src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/cf/Lullaby_wound_up_clock_guten_abend_gute_nacht.ogg/Lullaby_wound_up_clock_guten_abend_gute_nacht.ogg.mp3', label:'Brahms Lullaby · Music Box'},
+ {src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/c/c1/Frere_Jacques_-_canon.ogg/Frere_Jacques_-_canon.ogg.mp3', label:'Frère Jacques · Classic'},
+ {src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/5/50/Mary_Had_a_Little_Lamb.ogg/Mary_Had_a_Little_Lamb.ogg.mp3', label:'Mary Had a Little Lamb'},
+ {src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1c/Guten_Abend_gut_Nacht.ogg/Guten_Abend_gut_Nacht.ogg.mp3', label:'Brahms Lullaby · Piano'}
 ];
 var tIdx=0, errCount=0;
 function loadTrack(i, autoplay){
@@ -872,6 +883,144 @@ song.addEventListener('playing', function(){ errCount=0; });
 song.addEventListener('error', function(){
   errCount++;
   if(errCount<=3){ $('musicBar').style.display=''; loadTrack(tIdx+1, true); }
+});
+</script>
+
+<style>
+.cd-cell:nth-of-type(1) .cd-num{color:#f9cfdc}
+.cd-cell:nth-of-type(2) .cd-num{color:#ef7fa5}
+.cd-cell:nth-of-type(3) .cd-num{color:#ffb59e}
+.cd-cell:nth-of-type(4) .cd-num{color:#f2b04a}
+.stat-row .lab::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:9px;background:#ef7fa5;vertical-align:2px}
+.stat-list .stat-row:nth-of-type(1) .lab::before{background:#ef7fa5}
+.stat-list .stat-row:nth-of-type(2) .lab::before{background:#e04a67}
+.stat-list .stat-row:nth-of-type(3) .lab::before{background:#f2b04a}
+.stat-list .stat-row:nth-of-type(4) .lab::before{background:#7fd4a8}
+.stat-list .stat-row:nth-of-type(5) .lab::before{background:#8fb8ff}
+.stat-list .stat-row:nth-of-type(6) .lab::before{background:#f9cfdc}
+.stat-list .stat-row:nth-of-type(7) .lab::before{background:#ff8fab}
+#galGrid figure:nth-child(4n+1){border-color:rgba(239,127,165,.8)}
+#galGrid figure:nth-child(4n+2){border-color:rgba(249,207,220,.75)}
+#galGrid figure:nth-child(4n+3){border-color:rgba(255,181,158,.75)}
+#galGrid figure:nth-child(4n){border-color:rgba(201,164,224,.7)}
+.film-card:nth-child(4n+1){border-color:rgba(239,127,165,.8)}
+.film-card:nth-child(4n+2){border-color:rgba(249,207,220,.75)}
+.film-card:nth-child(4n+3){border-color:rgba(255,181,158,.75)}
+.film-card:nth-child(4n){border-color:rgba(201,164,224,.7)}
+.game-card{position:relative;overflow:hidden}
+.game-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ef7fa5,#f2b04a,#e04a67,#ff8fab,#8fb8ff);z-index:1}
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:14px}
+.mem-card{aspect-ratio:1;border-radius:12px;border:1px solid rgba(226,114,143,.45);background:linear-gradient(160deg,#571633,#3d1226);display:flex;align-items:center;justify-content:center;font-size:29px;cursor:pointer;transition:transform .25s ease,background .25s ease;user-select:none;-webkit-user-select:none}
+.mem-card .face{display:none}
+.mem-card .back{color:var(--gold-l);font-size:19px}
+.mem-card.open{background:linear-gradient(160deg,#ffe9f1,#f9cfdc);transform:scale(1.04)}
+.mem-card.open .face{display:block}
+.mem-card.open .back{display:none}
+.mem-card.done{background:linear-gradient(160deg,#ffd9e6,#f28bb0);border-color:rgba(255,255,255,.8);box-shadow:0 0 14px rgba(239,127,165,.5)}
+.mem-card.done .face{display:block}
+.mem-card.done .back{display:none}
+#bigName{animation:shine 7s linear infinite,nameFloat 6s ease-in-out infinite alternate}
+@keyframes nameFloat{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+.bg-balloon{position:fixed;bottom:-90px;width:34px;height:42px;border-radius:50%/54% 54% 46% 46%;opacity:.42;pointer-events:none;z-index:1;animation:bgRise linear forwards;box-shadow:inset -5px -6px 9px rgba(0,0,0,.15)}
+@keyframes bgRise{to{transform:translateY(-118vh)}}
+.tap-star{position:fixed;width:13px;height:13px;margin:-6px 0 0 -6px;pointer-events:none;z-index:90;font-size:12px;line-height:1}
+</style>
+
+<script>
+/* ---- tiny sound effects, made in code (no files to load) ---- */
+var AC=null;
+function audioCtx(){
+  if(!AC){ try{ AC=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} }
+  if(AC && AC.state==='suspended') AC.resume();
+  return AC;
+}
+function playPop(){
+  var ctx=audioCtx(); if(!ctx) return;
+  var t=ctx.currentTime, dur=0.14;
+  var buf=ctx.createBuffer(1, Math.floor(ctx.sampleRate*dur), ctx.sampleRate), d=buf.getChannelData(0);
+  for(var i=0;i<d.length;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.2); }
+  var src=ctx.createBufferSource(); src.buffer=buf;
+  var f=ctx.createBiquadFilter(); f.type='bandpass'; f.frequency.value=900; f.Q.value=0.8;
+  var g=ctx.createGain(); g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+dur);
+  src.connect(f); f.connect(g); g.connect(ctx.destination); src.start(t);
+  var o=ctx.createOscillator(), g2=ctx.createGain();
+  o.type='sine'; o.frequency.setValueAtTime(320,t); o.frequency.exponentialRampToValueAtTime(55,t+0.1);
+  g2.gain.setValueAtTime(0.32,t); g2.gain.exponentialRampToValueAtTime(0.001,t+0.12);
+  o.connect(g2); g2.connect(ctx.destination); o.start(t); o.stop(t+0.13);
+}
+function playTone(freq, delay, vol){
+  var ctx=audioCtx(); if(!ctx) return;
+  var t=ctx.currentTime+delay;
+  var o=ctx.createOscillator(), g=ctx.createGain();
+  o.type='sine'; o.frequency.value=freq;
+  g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(vol,t+0.02); g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+  o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t+0.45);
+}
+function playChime(){ playTone(1318,0,0.12); playTone(1760,0.07,0.1); }
+function playWin(){ playTone(523,0,0.12); playTone(659,0.09,0.12); playTone(784,0.18,0.12); playTone(1046,0.27,0.13); }
+/* ---- coloured wish lanterns ---- */
+var LANTERN_HUES=['linear-gradient(180deg,#ffd9a0,#ff9d5c)','linear-gradient(180deg,#ffc2d1,#ef7fa5)','linear-gradient(180deg,#ffe9a8,#f2b04a)','linear-gradient(180deg,#f9cfdc,#e04a67)'];
+/* ---- memory match ---- */
+var MEM_EMOJI=['🎂','🎈','🧸','🦋','🌸','⭐'];
+var memOpen=[], memLock=false, memPairs=0;
+function startMemory(){
+  memOpen=[]; memLock=false; memPairs=0;
+  $('memScore').textContent='Pairs: 0 / 6';
+  $('memMsg').textContent='Find the 6 matching pairs.';
+  $('memBtn').textContent='↻ Shuffle & Restart';
+  var deck=MEM_EMOJI.concat(MEM_EMOJI), i, j, t;
+  for(i=deck.length-1;i>0;i--){ j=Math.floor(Math.random()*(i+1)); t=deck[i]; deck[i]=deck[j]; deck[j]=t; }
+  var gh='';
+  deck.forEach(function(e){ gh+='<div class="mem-card" data-v="'+e+'"><span class="back">✦</span><span class="face">'+e+'</span></div>'; });
+  $('memGrid').innerHTML=gh;
+  document.querySelectorAll('#memGrid .mem-card').forEach(function(card){
+    card.addEventListener('pointerdown', function(){ flipMem(card); });
+  });
+}
+function flipMem(card){
+  if(memLock || card.classList.contains('open') || card.classList.contains('done')) return;
+  audioCtx(); card.classList.add('open'); memOpen.push(card);
+  if(memOpen.length<2) return;
+  var a=memOpen[0], b=memOpen[1];
+  if(a.dataset.v===b.dataset.v){
+    a.classList.add('done'); b.classList.add('done'); memOpen=[]; memPairs++;
+    playChime();
+    $('memScore').textContent='Pairs: '+memPairs+' / 6';
+    if(memPairs>=6){ $('memMsg').textContent='You found them all — brilliant! 🎉'; confettiBurst(60); playWin(); }
+  } else {
+    memLock=true;
+    setTimeout(function(){ a.classList.remove('open'); b.classList.remove('open'); memOpen=[]; memLock=false; }, 780);
+  }
+}
+startMemory();
+/* ---- gentle balloons drifting up the whole page ---- */
+var BG_COLORS=['#ef7fa5','#f28bb0','#f9cfdc','#ff8fab','#f2b04a'];
+function spawnBgBalloon(){
+  if(document.hidden) return;
+  if(document.querySelectorAll('.bg-balloon').length>=4) return;
+  var b=document.createElement('div'); b.className='bg-balloon';
+  var c=BG_COLORS[Math.floor(Math.random()*BG_COLORS.length)];
+  b.style.left=(2+Math.random()*90)+'vw';
+  b.style.background='radial-gradient(circle at 32% 26%, rgba(255,255,255,.7), rgba(255,255,255,0) 42%), '+c;
+  b.style.animationDuration=(13+Math.random()*6)+'s';
+  b.addEventListener('animationend', function(){ b.remove(); });
+  document.body.appendChild(b);
+}
+setTimeout(spawnBgBalloon, 1600);
+setInterval(spawnBgBalloon, 8000);
+/* ---- sparkle where little fingers tap ---- */
+var lastSpark=0, SPARK_COLORS=['#f9cfdc','#ef7fa5','#f2b04a','#fff5f0'];
+document.addEventListener('pointerdown', function(e){
+  var now=Date.now(); if(now-lastSpark<110) return; lastSpark=now;
+  if(e.target.closest && (e.target.closest('.play-area') || e.target.closest('#lb'))) return;
+  for(var i=0;i<3;i++){
+    var sp=document.createElement('span'); sp.className='tap-star'; sp.textContent='✦';
+    sp.style.left=e.clientX+'px'; sp.style.top=e.clientY+'px';
+    sp.style.color=SPARK_COLORS[i%SPARK_COLORS.length];
+    document.body.appendChild(sp);
+    var a=Math.random()*Math.PI*2, dist=16+Math.random()*20;
+    sp.animate([{transform:'translate(0,0) scale(.5)',opacity:1},{transform:'translate('+(Math.cos(a)*dist)+'px,'+(Math.sin(a)*dist-8)+'px) scale(1.15)',opacity:0}],{duration:560,easing:'ease-out'}).onfinish=(function(el){return function(){el.remove()}})(sp);
+  }
 });
 </script>
 </body>
