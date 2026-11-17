@@ -905,14 +905,21 @@ var TRACKS=[
  {src:'https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1c/Guten_Abend_gut_Nacht.ogg/Guten_Abend_gut_Nacht.ogg.mp3', label:'Brahms Lullaby · Piano'}
 ];
 var tIdx=0, errCount=0;
+var lastLoadAt=0;
 function loadTrack(i, autoplay){
+  lastLoadAt=Date.now();
   tIdx=((i%TRACKS.length)+TRACKS.length)%TRACKS.length;
   song.src=TRACKS[tIdx].src;
   song.load();
   $('musicLabel').textContent=TRACKS[tIdx].label;
-  if(autoplay){ var pr=song.play(); if(pr) pr.catch(function(){}); }
+  if(autoplay){ var pr=song.play(); if(pr) pr.catch(function(){}); uiState(true); }
 }
 function nextTrack(){ loadTrack(tIdx+1, true); }
+function uiState(playing){
+  $('musicBtn').textContent = playing ? '❚❚' : '♪';
+  $('musicBtn').classList.toggle('playing', playing);
+  $('musicLabel').classList.toggle('show', playing);
+}
 var playRetryUsed=false;
 function toggleMusic(){
   if(song.paused){
@@ -921,14 +928,17 @@ function toggleMusic(){
     if(pr) pr.catch(function(){
       if(!playRetryUsed){ playRetryUsed=true; setTimeout(function(){ loadTrack(tIdx,true); },350); }
     });
+    uiState(true);
   }
-  else song.pause();
+  else { song.pause(); uiState(false); }
 }
 song.addEventListener('ended', function(){ loadTrack(tIdx+1, true); });
-song.addEventListener('playing', function(){ errCount=0; playRetryUsed=false; });
+song.addEventListener('playing', function(){ errCount=0; playRetryUsed=false; uiState(true); });
 song.addEventListener('error', function(){
+  if(Date.now()-lastLoadAt < 600) return;
   errCount++;
-  if(errCount<=3){ $('musicBar').style.display=''; loadTrack(tIdx+1, true); }
+  if(errCount<=2){ loadTrack(tIdx+1, true); }
+  else { uiState(false); $('musicLabel').textContent='Song unavailable — tap Next'; $('musicLabel').classList.add('show'); }
 });
 loadTrack(0,false);
 </script>
