@@ -681,7 +681,6 @@ function toggleMusic(){
 }
 song.addEventListener('play',musicUI);
 song.addEventListener('pause',musicUI);
-song.addEventListener('error',function(){ $('musicBar').style.display='none'; },true);
 function openSurprise(){
   $('intro').classList.add('gone');
   confettiBurst(70);
@@ -910,20 +909,29 @@ var tIdx=0, errCount=0;
 function loadTrack(i, autoplay){
   tIdx=((i%TRACKS.length)+TRACKS.length)%TRACKS.length;
   song.src=TRACKS[tIdx].src;
+  song.load();
   $('musicLabel').textContent=TRACKS[tIdx].label;
   if(autoplay){ var pr=song.play(); if(pr) pr.catch(function(){}); }
 }
 function nextTrack(){ loadTrack(tIdx+1, true); }
+var playRetryUsed=false;
 function toggleMusic(){
-  if(song.paused){ var pr=song.play(); if(pr) pr.catch(function(){}); }
+  if(song.paused){
+    if(song.readyState<2) loadTrack(tIdx,false);
+    var pr=song.play();
+    if(pr) pr.catch(function(){
+      if(!playRetryUsed){ playRetryUsed=true; setTimeout(function(){ loadTrack(tIdx,true); },350); }
+    });
+  }
   else song.pause();
 }
 song.addEventListener('ended', function(){ loadTrack(tIdx+1, true); });
-song.addEventListener('playing', function(){ errCount=0; });
+song.addEventListener('playing', function(){ errCount=0; playRetryUsed=false; });
 song.addEventListener('error', function(){
   errCount++;
   if(errCount<=3){ $('musicBar').style.display=''; loadTrack(tIdx+1, true); }
 });
+loadTrack(0,false);
 </script>
 
 <style>
