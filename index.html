@@ -567,10 +567,10 @@ function tick(){
   $('stDream').textContent=fmt(alive*(14/24)/3600);
   $('stBottle').textContent=fmt(alive/(3.5*3600));
 }
+var CCOLORS=['#e2728f','#f9cfdc','#f6efe0','#e2728f','#a52c48'];
 setInterval(tick,1000); tick();
 
 /* celebration fx */
-var CCOLORS=['#e2728f','#f9cfdc','#f6efe0','#e2728f','#a52c48'];
 function confettiBurst(n){
   for(var i=0;i<n;i++){
     var c=document.createElement('span'); c.className='confetti';
